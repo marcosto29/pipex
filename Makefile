@@ -6,14 +6,14 @@
 #    By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 17:13:30 by matoledo          #+#    #+#              #
-#    Updated: 2025/05/20 17:17:28 by matoledo         ###   ########.fr        #
+#    Updated: 2025/05/21 13:58:54 by matoledo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
 #-Wall -Wextra -Werror
-CFLAGS = 
+CFLAGS = -Wall -Wextra -Werror
 
 NAME = pipex
 

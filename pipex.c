@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/20 22:02:27 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:16:36 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 //search the command on the PATH and writes it on a file
 static void	search_command(char *command)
 {
-	char	**argVec;
-	char	**envVec;
+	char	**arg_vec;
+	char	**env_vec;
 	int		fd;
 
-	argVec = ft_calloc(sizeof(char *), 3);
-	argVec[0] = ft_strdup("which");
-	argVec[1] = ft_strdup(command);
-	envVec = ft_calloc(sizeof(char **), 1);
+	arg_vec = ft_calloc(sizeof(char *), 3);
+	arg_vec[0] = ft_strdup("which");
+	arg_vec[1] = ft_strdup(command);
+	env_vec = ft_calloc(sizeof(char **), 1);
 	fd = open("Path", O_WRONLY | O_CREAT);
 	if (fd < 0)
 	{
@@ -31,7 +31,7 @@ static void	search_command(char *command)
 	}
 	dup2(fd, 1);
 	close(fd);
-	if (execve("/usr/bin/which", argVec, envVec) == -1)
+	if (execve("/usr/bin/which", arg_vec, env_vec) == -1)
 	{
 		perror("Couldn't find the command");
 		exit(EXIT_FAILURE);
@@ -73,12 +73,26 @@ int	main(int argc, char *argv[])
 {
 	char	**splitted_command;
 	char	*cmd;
-	
+	char	**arg_vec;
+	char	**env_vec;
+
+	ft_printf("%d", argc);
 	//manage input file
 	argv++;
 	splitted_command = ft_split(*argv, ' ');
 	cmd = initialize_command(*splitted_command);
-	//manage args
+	if (!cmd)
+	{
+		perror("Command error");
+		exit(EXIT_FAILURE);
+	}
+	arg_vec = ft_strdup_double(splitted_command);
+	env_vec = ft_calloc(sizeof(char *), 1);
+	if (execve(cmd, arg_vec, env_vec) == -1)
+	{
+		perror("Couldn't execute command");
+		exit(EXIT_FAILURE);
+	}
 	//manage output file
 	//execute commands
 	//execute args
