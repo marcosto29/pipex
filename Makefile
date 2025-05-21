@@ -6,7 +6,7 @@
 #    By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 17:13:30 by matoledo          #+#    #+#              #
-#    Updated: 2025/05/21 16:33:46 by matoledo         ###   ########.fr        #
+#    Updated: 2025/05/21 21:41:05 by matoledo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,6 @@ $(NAME): $(OBJS)
 
 clean:
 	$(MAKE) -C ./libft clean
-	@rm -rf Path
 	@rm -rf *.o
 
 fclean: clean
