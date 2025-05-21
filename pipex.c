@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/21 14:16:36 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:41:12 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static void	search_command(char *command)
 	arg_vec[0] = ft_strdup("which");
 	arg_vec[1] = ft_strdup(command);
 	env_vec = ft_calloc(sizeof(char **), 1);
-	fd = open("Path", O_WRONLY | O_CREAT);
+	fd = open("Path", O_CREAT | O_WRONLY);
 	if (fd < 0)
 	{
-		perror("Couldn't open the file");
+		perror("Couldn't open the file to write");
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd, 1);
@@ -58,7 +58,7 @@ static char	*initialize_command(char *command)
 	fd = open("Path", O_RDONLY);
 	if (fd < 0)
 	{
-		perror("Couldn't open the file");
+		perror("Couldn't open the file to read");
 		return (NULL);
 	}
 	cmd = get_next_line(fd);
@@ -74,11 +74,11 @@ int	main(int argc, char *argv[])
 	char	**splitted_command;
 	char	*cmd;
 	char	**arg_vec;
-	char	**env_vec;
+	char	*env_vec[] = { "PWD=/home/matoledo/Desktop", NULL };
+	char	*input_file;
 
-	ft_printf("%d", argc);
-	//manage input file
 	argv++;
+	//input_file = ft_strdup(*argv);
 	splitted_command = ft_split(*argv, ' ');
 	cmd = initialize_command(*splitted_command);
 	if (!cmd)
@@ -87,7 +87,8 @@ int	main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	arg_vec = ft_strdup_double(splitted_command);
-	env_vec = ft_calloc(sizeof(char *), 1);
+	// env_vec = ft_calloc(sizeof(char *), 2);
+	// *env_vec = ft_strdup("PATH=/home/matoledo/Desktop");
 	if (execve(cmd, arg_vec, env_vec) == -1)
 	{
 		perror("Couldn't execute command");
