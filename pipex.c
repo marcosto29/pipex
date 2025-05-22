@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/21 21:39:40 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:23:49 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	search_command(char *command, int pipe[])
 		free_memory(env_vec);
 		close(pipe[1]);
 		dup2(save_stdout, 1);
-		perror("Couldn't find the command");
+		perror("Error finding the command");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -47,14 +47,14 @@ static char	*initialize_command(char *command)
 
 	if (pipe(fd) == -1)
 	{
-		perror("Couldn't open pipe");
-		return (NULL);
+		perror("pipe error");
+		exit(EXIT_FAILURE);
 	}
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("Couldn't fork");
-		return (NULL);
+		perror("fork error");
+		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
 		search_command(command, fd);
@@ -75,22 +75,19 @@ int	main(int argc, char *argv[])
 	char	*env_vec[] = { NULL };
 	char	*input_file;
 
+	input_parse(argc, argv);
 	argv++;
-	//input_file = ft_strdup(*argv);
 	splitted_command = ft_split(*argv, ' ');
 	cmd = initialize_command(*splitted_command);
-	if (!cmd)
+	if (!cmd || !*cmd)
 	{
-		perror("Command error");
+		perror("Error finding the command");
 		exit(EXIT_FAILURE);
 	}
 	if (execve(cmd, splitted_command, env_vec) == -1)
 	{
-		perror("Couldn't execute command");
+		perror("Error executing the command");
 		exit(EXIT_FAILURE);
 	}
-	//manage output file
-	//execute commands
-	//execute args
 	return (0);
 }
