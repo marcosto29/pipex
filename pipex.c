@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:23:49 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:29:50 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	search_command(char *command, int pipe[])
 
 //check the input command and search for it on PATH
 //then writes it on a file redirecting the file descriptor 1 to the one open
-static char	*initialize_command(char *command)
+static char	*command_parse(char *command)
 {
 	char	*cmd;
 	int		fd[2];
@@ -75,15 +75,18 @@ int	main(int argc, char *argv[])
 	char	*env_vec[] = { NULL };
 	char	*input_file;
 
+	argv++;
 	input_parse(argc, argv);
+	input_file = ft_strdup(*argv);
 	argv++;
 	splitted_command = ft_split(*argv, ' ');
-	cmd = initialize_command(*splitted_command);
+	cmd = command_parse(*splitted_command);
 	if (!cmd || !*cmd)
 	{
 		perror("Error finding the command");
 		exit(EXIT_FAILURE);
 	}
+	splitted_command = add_string(splitted_command, input_file);
 	if (execve(cmd, splitted_command, env_vec) == -1)
 	{
 		perror("Error executing the command");

@@ -6,11 +6,48 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:24:29 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:34:06 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+size_t	ft_strlen_double(char **ds)
+{
+	size_t size;
+
+	size = 0;
+	while (*ds)
+	{
+		size++;
+		ds++;
+	}
+	return (size);
+}
+
+char	**add_string(char **ds, char *s)
+{
+	char	**pt_return;
+	char	**pt_aux;
+	char	**pt_aux2;
+	int		size;
+
+	size = ft_strlen_double(ds);
+	pt_return = ft_calloc(sizeof(char *), size + 2);
+	if (!pt_return)
+		return (NULL);
+	pt_aux = pt_return;
+	pt_aux2 = ds;
+	while (*pt_aux2)
+	{
+		*pt_aux = ft_strdup(*pt_aux2);
+		pt_aux++;
+		pt_aux2++;
+	}
+	*pt_aux = ft_strdup(s);
+	free_memory(ds);
+	return (pt_return);
+}
 
 void	input_parse(int argc, char **argv)
 {
@@ -21,10 +58,10 @@ void	input_parse(int argc, char **argv)
 		ft_printf("Not enough arguments\n");
 		exit(EXIT_FAILURE);
 	}
-	fd = open(*(argv + 1), O_RDONLY);
+	fd = open(*argv, O_RDONLY);
 	if (fd < 0)
 	{
-		perror(*(argv + 1));
+		perror(*argv);
 		exit(EXIT_FAILURE);
 	}
 }
