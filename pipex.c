@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/22 12:29:50 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:52:18 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int argc, char *argv[])
 	char	*cmd;
 	char	*env_vec[] = { NULL };
 	char	*input_file;
+	int		fd;
 
 	argv++;
 	input_parse(argc, argv);
@@ -87,6 +88,8 @@ int	main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	splitted_command = add_string(splitted_command, input_file);
+	fd = open(last_string(argv), O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
+	dup2(fd, 1);
 	if (execve(cmd, splitted_command, env_vec) == -1)
 	{
 		perror("Error executing the command");

@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:34:42 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/22 12:12:23 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:50:41 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void	free_memory(char **s);
 void	input_parse(int argc, char **argv);
 char	**add_string(char **ds, char *s);
 size_t	ft_strlen_double(char **ds);
+char	*last_string(char **ds);
 
 #endif

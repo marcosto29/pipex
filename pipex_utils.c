@@ -6,12 +6,18 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/22 12:34:06 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:51:04 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+char	*last_string(char **ds)
+{
+	while (*(ds + 1))
+		ds++;
+	return (*ds);
+}
 size_t	ft_strlen_double(char **ds)
 {
 	size_t size;
@@ -53,11 +59,11 @@ void	input_parse(int argc, char **argv)
 {
 	int	fd;
 	
-	if (argc <= 4)
-	{
-		ft_printf("Not enough arguments\n");
-		exit(EXIT_FAILURE);
-	}
+	// if (argc <= 4)
+	// {
+	// 	ft_printf("Not enough arguments\n");
+	// 	exit(EXIT_FAILURE);
+	// }
 	fd = open(*argv, O_RDONLY);
 	if (fd < 0)
 	{
