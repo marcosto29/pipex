@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/22 14:40:07 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:47:52 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,14 @@ static char	*command_parse(char *command)
 	return (cmd);
 }
 
-int	main(int argc, char *argv[])
+void	command(char	**argv, int fdi, int fdo)
 {
 	char	**splitted_command;
+	char	**env_vec;
 	char	*cmd;
-	char	*env_vec[] = { NULL };
-	int		fdi;
-	int		fdo;
+	pid_t	pid;
 
-	argv++;
-	input_parse(argc, argv);
-	fdi = open(*argv, O_RDONLY);
-	dup2(fdi, 0);
-	argv++;
+	*env_vec = ft_calloc(sizeof(char *), 1);
 	splitted_command = ft_split(*argv, ' ');
 	cmd = command_parse(*splitted_command);
 	if (!cmd || !*cmd)
@@ -88,12 +83,47 @@ int	main(int argc, char *argv[])
 		perror("Error finding the command");
 		exit(1);
 	}
-	fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0644);
-	dup2(fdo, 1);
-	if (execve(cmd, splitted_command, env_vec) == -1)
+	pid = fork();
+	if (pid == 0)
 	{
-		perror("Error executing the command");
-		exit(1);
+		dup2(fdo, 1);
+		dup2(fdi, 0);
+		if (execve(cmd, splitted_command, env_vec) == -1)
+		{
+			perror("Error executing the command");
+			exit(1);
+		}
 	}
+	wait(NULL);
+}
+
+//TODO: gestión de errores
+//TODO: arreglar la fokin norminette
+int	main(int argc, char *argv[])
+{
+	int		fdi;
+	int		fdo;
+	int		save_stdin;
+	int		save_stdout;
+	int		pipe_fd[2];
+
+	save_stdin = dup(0);
+	save_stdout = dup(1);
+	argv++;
+	input_parse(argc, argv);
+	fdi = open(*argv, O_RDONLY);
+	fdo = open(last_string(argv), O_RDWR | O_CREAT | O_TRUNC, 0644);
+	argv++;
+	while (argc-- > 4)
+	{
+		pipe(pipe_fd);
+		command(argv++, fdi, pipe_fd[1]);
+		close(pipe_fd[1]);
+		if (fdi != pipe_fd[0])
+			fdi = pipe_fd[0];
+	}
+	command(argv, fdi, fdo);
+	close(fdo);
+	close(fdi);
 	return (0);
 }
