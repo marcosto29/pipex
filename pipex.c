@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/26 18:20:22 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:52:05 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,19 @@ static char	*command_parse(char *command)
 	int		fd[2];
 	pid_t	pid;
 
-	if (pipe(fd) == -1)
-	{
-		perror("pipe error");
-		exit(1);
-	}
+	pipe(fd);
 	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork error");
-		exit(1);
-	}
 	if (pid == 0)
 		search_command(command, fd);
 	close(fd[1]);
 	wait(NULL);
 	cmd = get_next_line(fd[0]);
 	close(fd[0]);
-	if (!cmd)
-		return (NULL);
+	if (!cmd || !*cmd)
+	{
+		perror("Command not found");
+		exit(1);
+	}
 	cmd[ft_strlen(cmd) - 1] = '\0';
 	return (cmd);
 }
@@ -78,11 +72,6 @@ void	command(char	**argv, int fdi, int fdo)
 	env_vec = ft_calloc(sizeof(char *), 1);
 	splitted_command = ft_split(*argv, ' ');
 	cmd = command_parse(*splitted_command);
-	if (!cmd || !*cmd)
-	{
-		perror("Error finding the command");
-		exit(1);
-	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -109,7 +98,7 @@ int	main(int argc, char *argv[])
 	argv++;
 	input_parse(argc, argv);
 	fdi = open(*argv, O_RDONLY);
-	fdo = open(last_string(argv), O_RDWR | O_CREAT | O_TRUNC, 0644);
+	fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	argv++;
 	while (argc-- > 4)
 	{
