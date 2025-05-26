@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/26 17:48:12 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:07:43 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ void	input_parse(int argc, char **argv)
 {
 	int	fd;
 
-	if (argc <= 4)
+	if (argc < 4)
 	{
 		ft_printf("Not enough arguments\n");
 		exit(1);
 	}
 	fd = open(*argv, O_RDONLY);
-	if (fd < 0)
+	if (fd == -1)
 	{
 		perror(*argv);
 		exit(1);

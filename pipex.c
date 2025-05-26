@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/26 17:47:52 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:20:22 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	command(char	**argv, int fdi, int fdo)
 	char	*cmd;
 	pid_t	pid;
 
-	*env_vec = ft_calloc(sizeof(char *), 1);
+	env_vec = ft_calloc(sizeof(char *), 1);
 	splitted_command = ft_split(*argv, ' ');
 	cmd = command_parse(*splitted_command);
 	if (!cmd || !*cmd)
@@ -103,12 +103,9 @@ int	main(int argc, char *argv[])
 {
 	int		fdi;
 	int		fdo;
-	int		save_stdin;
-	int		save_stdout;
 	int		pipe_fd[2];
+	int		tmp_pipe;
 
-	save_stdin = dup(0);
-	save_stdout = dup(1);
 	argv++;
 	input_parse(argc, argv);
 	fdi = open(*argv, O_RDONLY);
@@ -118,6 +115,8 @@ int	main(int argc, char *argv[])
 	{
 		pipe(pipe_fd);
 		command(argv++, fdi, pipe_fd[1]);
+		close(tmp_pipe);
+		tmp_pipe = pipe_fd[0];
 		close(pipe_fd[1]);
 		if (fdi != pipe_fd[0])
 			fdi = pipe_fd[0];
