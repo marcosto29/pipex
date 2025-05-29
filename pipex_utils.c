@@ -6,18 +6,11 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/26 18:07:43 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:54:36 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-char	*last_string(char **ds)
-{
-	while (*(ds + 1))
-		ds++;
-	return (*ds);
-}
 
 size_t	ft_strlen_double(char **ds)
 {

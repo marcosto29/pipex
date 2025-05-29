@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 13:03:05 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/15 12:17:45 by matoledo         ###   ########.fr       */
+/*   Created: 2025/04/18 13:05:20 by matoledo          #+#    #+#             */
+/*   Updated: 2025/05/29 18:57:41 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//function to get the size of a list
-int	ft_lstsize(t_list *lst)
+//function to add a node at the back (end) of the list
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list	*aux;
-	int		size;
+	t_list	*aux_node;
 
-	if (!lst)
-		return (0);
-	aux = lst;
-	size = 1;
-	while (aux->next)
+	if (!*lst)
 	{
-		size++;
-		aux = aux->next;
+		*lst = new;
+		return ;
 	}
-	return (size);
+	aux_node = *lst;
+	while (aux_node->next)
+	{
+		aux_node = aux_node->next;
+	}
+	aux_node->next = new;
 }

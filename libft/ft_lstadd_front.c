@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 13:06:08 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/15 12:08:47 by matoledo         ###   ########.fr       */
+/*   Created: 2025/04/17 23:53:32 by matoledo          #+#    #+#             */
+/*   Updated: 2025/05/29 18:57:41 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//function to delete a node of a list with an external delete function
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+//function to add a node at the front (beggining) of the list
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	del(lst->content);
-	free(lst);
+	t_list	*old_node;
+
+	old_node = *lst;
+	*lst = new;
+	new->next = old_node;
 }

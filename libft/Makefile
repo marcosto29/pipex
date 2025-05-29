@@ -6,7 +6,7 @@
 #    By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/12 16:09:09 by matoledo          #+#    #+#              #
-#    Updated: 2025/05/19 17:31:24 by matoledo         ###   ########.fr        #
+#    Updated: 2025/05/29 18:57:41 by matoledo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,30 +55,24 @@ SRCS = ft_atoi.c \
 	ft_substr.c \
 	ft_tolower.c \
 	ft_toupper.c \
-
-BONUS = ft_lstadd_back_bonus.c \
-	ft_lstadd_front_bonus.c \
-	ft_lstclear_bonus.c \
-	ft_lstdelone_bonus.c \
-	ft_lstiter_bonus.c \
-	ft_lstlast_bonus.c \
-	ft_lstmap_bonus.c \
-	ft_lstnew_bonus.c \
-	ft_lstsize_bonus.c \
+	ft_lstadd_back.c \
+	ft_lstadd_front.c \
+	ft_lstclear.c \
+	ft_lstdelone.c \
+	ft_lstiter.c \
+	ft_lstlast.c \
+	ft_lstmap.c \
+	ft_lstnew.c \
+	ft_lstsize.c \
 
 #Finds all the .c files and substitute the final .c for .o with
 #what this is saying is: OBJS is the list of SRCS but with .o instead of .c
 OBJS = $(SRCS:.c=.o)
 
-OBJSBONUS = $(BONUS:.c=.o)
-
 DIRS = ./libftprintf \
 		./libftget_next_line \
 
 all: $(NAME)
-
-bonus: $(NAME) $(OBJS) $(OBJSBONUS)
-	ar -rcs $(NAME) $(OBJS) $(OBJSBONUS)
 
 #when creating the library access each of the subdirectories and create it respectives libraries
 #this way each function can have its own .a

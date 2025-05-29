@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 23:53:32 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/15 12:08:11 by matoledo         ###   ########.fr       */
+/*   Created: 2025/04/18 13:03:05 by matoledo          #+#    #+#             */
+/*   Updated: 2025/05/29 18:57:26 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//function to add a node at the front (beggining) of the list
-void	ft_lstadd_front(t_list **lst, t_list *new)
+//function to get the size of a list
+int	ft_lstsize(t_list *lst)
 {
-	t_list	*old_node;
+	t_list	*aux;
+	int		size;
 
-	old_node = *lst;
-	*lst = new;
-	new->next = old_node;
+	if (!lst)
+		return (0);
+	aux = lst;
+	size = 1;
+	while (aux->next)
+	{
+		size++;
+		aux = aux->next;
+	}
+	return (size);
 }
