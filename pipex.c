@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/29 18:56:05 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:50:25 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,17 @@ static void	search_command(char *command, int pipe)
 {
 	char	**arg_vec;
 	char	**env_vec;
-	int		save_stdout;
 
 	arg_vec = ft_calloc(sizeof(char *), 3);
 	arg_vec[0] = ft_strdup("which");
 	arg_vec[1] = ft_strdup(command);
 	env_vec = ft_calloc(sizeof(char **), 1);
-	save_stdout = dup(1);
 	dup2(pipe, 1);
 	if (execve("/usr/bin/which", arg_vec, env_vec) == -1)
 	{
-		free_memory(arg_vec);
-		free_memory(env_vec);
 		close(pipe);
-		dup2(save_stdout, 1);
 		perror("Error finding the command");
-		exit(1);
+		return ;
 	}
 }
 
@@ -56,14 +51,12 @@ static char	*command_parse(char *command)
 	cmd = get_next_line(fd[0]);
 	close(fd[0]);
 	if (!cmd || !*cmd)
-	{
-		perror("Command not found");
-		exit(1);
-	}
+		return (NULL);
 	cmd[ft_strlen(cmd) - 1] = '\0';
 	return (cmd);
 }
 
+//preguntar y gestionar para que el error aparezca exactamente igual
 void	command(char	**argv, int fdi, int fdo)
 {
 	char	**splitted_command;
@@ -71,9 +64,16 @@ void	command(char	**argv, int fdi, int fdo)
 	char	*cmd;
 	pid_t	pid;
 
+	if (fdi == -1)
+		return ;
 	env_vec = ft_calloc(sizeof(char *), 1);
 	splitted_command = ft_split(*argv, ' ');
 	cmd = command_parse(*splitted_command);
+	if(!cmd)
+	{
+		perror("Command not found");
+		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -82,7 +82,7 @@ void	command(char	**argv, int fdi, int fdo)
 		if (execve(cmd, splitted_command, env_vec) == -1)
 		{
 			perror("Error executing the command");
-			exit(1);
+			return ;
 		}
 	}
 	wait(NULL);
@@ -97,9 +97,13 @@ int	main(int argc, char *argv[])
 	int		pipe_fd[2];
 	int		tmp_pipe;
 
+	if (argc < 4)
+		exit(1);
 	argv++;
-	input_parse(argc, argv);
 	fdi = open(*argv, O_RDONLY);
+	if (fdi == -1)
+		perror(*argv);
+	fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	argv++;
 	while (argc-- > 4)
 	{
@@ -110,7 +114,6 @@ int	main(int argc, char *argv[])
 		close(pipe_fd[1]);
 		fdi = pipe_fd[0];
 	}
-	fdo = open(*(argv + 1), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	command(argv, fdi, fdo);
 	close(fdo);
 	close(fdi);

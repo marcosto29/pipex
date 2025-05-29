@@ -6,11 +6,18 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/29 18:54:36 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:37:23 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*last_string(char **ds)
+{
+	while (*(ds + 1))
+		ds++;
+	return (*ds);
+}
 
 size_t	ft_strlen_double(char **ds)
 {
@@ -47,23 +54,6 @@ char	**add_string(char **ds, char *s)
 	*pt_aux = ft_strdup(s);
 	free_memory(ds);
 	return (pt_return);
-}
-
-void	input_parse(int argc, char **argv)
-{
-	int	fd;
-
-	if (argc < 4)
-	{
-		ft_printf("Not enough arguments\n");
-		exit(1);
-	}
-	fd = open(*argv, O_RDONLY);
-	if (fd == -1)
-	{
-		perror(*argv);
-		exit(1);
-	}
 }
 
 void	free_memory(char **s)
