@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/30 17:21:20 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:25:25 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	search_command(char *command, int pipe)
 	dup2(pipe, 1);
 	if (execve("/usr/bin/which", arg_vec, env_vec) == -1)
 	{
+		perror("Command not found");
 		close(pipe);
 		exit (1);
 	}
@@ -108,7 +109,5 @@ int	main(int argc, char *argv[])
 	}
 	fdo = open(*(argv + 1), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	command(argv, fdi, fdo);
-	close(fdo);
-	close(fdi);
-	return (0);
+	return (close(fdo), close(fdi), 0);
 }
