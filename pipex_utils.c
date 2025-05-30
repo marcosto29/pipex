@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/29 20:37:23 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:51:26 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,54 +17,4 @@ char	*last_string(char **ds)
 	while (*(ds + 1))
 		ds++;
 	return (*ds);
-}
-
-size_t	ft_strlen_double(char **ds)
-{
-	size_t	size;
-
-	size = 0;
-	while (*ds)
-	{
-		size++;
-		ds++;
-	}
-	return (size);
-}
-
-char	**add_string(char **ds, char *s)
-{
-	char	**pt_return;
-	char	**pt_aux;
-	char	**pt_aux2;
-	int		size;
-
-	size = ft_strlen_double(ds);
-	pt_return = ft_calloc(sizeof(char *), size + 2);
-	if (!pt_return)
-		return (NULL);
-	pt_aux = pt_return;
-	pt_aux2 = ds;
-	while (*pt_aux2)
-	{
-		*pt_aux = ft_strdup(*pt_aux2);
-		pt_aux++;
-		pt_aux2++;
-	}
-	*pt_aux = ft_strdup(s);
-	free_memory(ds);
-	return (pt_return);
-}
-
-void	free_memory(char **s)
-{
-	char	**pt_aux;
-
-	pt_aux = s;
-	while (*pt_aux)
-	{
-		free(*pt_aux);
-		pt_aux++;
-	}
-	free(s);
 }

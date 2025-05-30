@@ -6,7 +6,7 @@
 #    By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 17:13:30 by matoledo          #+#    #+#              #
-#    Updated: 2025/05/26 19:59:17 by matoledo         ###   ########.fr        #
+#    Updated: 2025/05/30 16:40:59 by matoledo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = pipex
 
 SRCS= pipex.c \
-	pipex_utils.c
+	pipex_utils.c \
+	ft_split_pipex.c \
 
 OBJS = $(SRCS:.c=.o)
 
