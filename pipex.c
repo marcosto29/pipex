@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/30 17:25:25 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/31 18:52:22 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ static char	*command_parse(char *command)
 	cmd = get_next_line(fd[0]);
 	close(fd[0]);
 	if (!cmd || !*cmd)
-		return (NULL);
-	cmd[ft_strlen(cmd) - 1] = '\0';
+		cmd = command;
+	else
+		cmd[ft_strlen(cmd) - 1] = '\0';
 	return (cmd);
 }
 
@@ -63,21 +64,21 @@ void	command(char	**argv, int fdi, int fdo)
 	char	*cmd;
 	pid_t	pid;
 
-	if (fdi == -1)
+	if (fdi == -1 || is_empty(*argv) == 1)
 		return ;
-	env_vec = ft_calloc(sizeof(char *), 1);
-	splitted_command = ft_split_pipex(*argv, ' ');
-	cmd = command_parse(*splitted_command);
-	if (!cmd)
-		cmd = *splitted_command;
 	pid = fork();
 	if (pid == 0)
 	{
+		env_vec = ft_calloc(sizeof(char *), 1);
+		splitted_command = ft_split_pipex(*argv, ' ');
+		cmd = command_parse(*splitted_command);
 		dup2(fdo, 1);
 		dup2(fdi, 0);
 		if (execve(cmd, splitted_command, env_vec) == -1)
 		{
 			perror(cmd);
+			free_memory(splitted_command); 
+			free_memory(env_vec);
 			exit (1);
 		}
 	}
@@ -91,6 +92,7 @@ int	main(int argc, char *argv[])
 	int		pipe_fd[2];
 	int		tmp_pipe;
 
+	tmp_pipe = -1;
 	if (argc < 4)
 		exit(1);
 	argv++;
@@ -102,7 +104,8 @@ int	main(int argc, char *argv[])
 	{
 		pipe(pipe_fd);
 		command(argv++, fdi, pipe_fd[1]);
-		close(tmp_pipe);
+		if (tmp_pipe != -1)
+			close(tmp_pipe);
 		tmp_pipe = pipe_fd[0];
 		close(pipe_fd[1]);
 		fdi = pipe_fd[0];

@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 15:54:23 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/30 17:02:56 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/05/31 18:19:45 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,6 @@ static char	*next_character(const char *str, char c)
 	else
 		pt_return = ft_strchr(str, c);
 	return (pt_return);
-}
-
-static void	free_memory(char **splitted_word)
-{
-	char	**pt_aux;
-
-	pt_aux = splitted_word;
-	while (*pt_aux)
-	{
-		free(*pt_aux++);
-	}
-	free(splitted_word);
 }
 
 static unsigned int	ft_splits_number(const char *to_split, char split_character)
