@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/01 10:54:00 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/01 12:52:51 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,45 +87,45 @@ void	command(char **argv, int fdi, int fdo)
 	wait(NULL);
 }
 
-void	pipe_line(int argc, char **argv)
+void	pipe_line(int argc, char **argv, int fdi, int fdo)
 {
 	int		pipe_fd[2];
-	int		tmp_pipe;
-	int		fdo;
-	int		fdi;
-
-	fdi = open(*argv, O_RDONLY);
-	if (fdi == -1)
-		perror(*argv);
-	tmp_pipe = -1;
+	
 	argv++;
 	while (argc-- > 4)
 	{
 		pipe(pipe_fd);
 		command(argv++, fdi, pipe_fd[1]);
-		if (tmp_pipe != -1)
-			close(tmp_pipe);
-		tmp_pipe = pipe_fd[0];
 		close(pipe_fd[1]);
+		close(fdi);
 		fdi = pipe_fd[0];
 	}
-	fdo = open(*(argv + 1), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	command(argv, fdi, fdo);
-	close(fdo);
-	close(fdi);
 }
 
 int	main(int argc, char *argv[])
 {
+	int	fdi;
+	int	fdo;
+
 	if (argc < 4)
 		exit(1);
 	argv++;
 	if (ft_strncmp(*argv, "here_doc", 8) == 0)
 	{
 		argv++;
-		here_doc_parse(argv);
-		exit(0);
+		fdi = here_doc_parse(argv);
+		if (fdi == -1)
+			perror(*argv);
+		argc--;
 	}
-	pipe_line(argc, argv);
-	return (0);
+	else
+	{
+		fdi = open(*argv, O_RDONLY);
+		if (fdi == -1)
+			perror(*argv);
+	}
+	fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	pipe_line(argc, argv, fdi, fdo);
+	return (close(fdi), close(fdo), 0);
 }

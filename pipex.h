@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:34:42 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/01 10:53:38 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/01 11:58:23 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # include <string.h>
 # include <errno.h>
 
-void	here_doc_parse(char **argv);
+char	*last_string(char **ds);
+int		here_doc_parse(char **argv);
 char	**ft_split_pipex(char const *s, char c);
 int		is_empty(char *s);
 void	free_memory(char **splitted_word);
