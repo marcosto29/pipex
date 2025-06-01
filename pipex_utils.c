@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/01 13:19:33 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/01 13:54:58 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	free_memory(char **splitted_word)
 	free(splitted_word);
 }
 
+//read from the input and write it on the pipe thats gonna be input for execve
 int	here_doc_parse(char **argv)
 {
 	int		pipe_fd[2];
