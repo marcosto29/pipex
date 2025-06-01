@@ -6,21 +6,20 @@
 #    By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 17:13:30 by matoledo          #+#    #+#              #
-#    Updated: 2025/06/01 10:54:26 by matoledo         ###   ########.fr        #
+#    Updated: 2025/06/01 13:19:54 by matoledo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
 #-Wall -Wextra -Werror
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 NAME = pipex
 
 SRCS= pipex.c \
 	pipex_utils.c \
 	ft_split_pipex.c \
-	pipex_here_doc.c \
 
 OBJS = $(SRCS:.c=.o)
 

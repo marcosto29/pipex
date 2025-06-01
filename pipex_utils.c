@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/01 11:58:13 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/01 13:19:33 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,22 @@ void	free_memory(char **splitted_word)
 		free(*pt_aux++);
 	}
 	free(splitted_word);
+}
+
+int	here_doc_parse(char **argv)
+{
+	int		pipe_fd[2];
+	char	*line;
+
+	pipe(pipe_fd);
+	line = get_next_line(0);
+	while (!ft_strnstr(line, *argv, ft_strlen(line)))
+	{
+		write(pipe_fd[1], line, ft_strlen(line));
+		free(line);
+		line = get_next_line(0);
+	}
+	free(line);
+	close(pipe_fd[1]);
+	return (pipe_fd[0]);
 }

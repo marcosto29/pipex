@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/01 12:52:51 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/01 13:16:31 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static char	*command_parse(char *command)
 	return (cmd);
 }
 
+//execute the command selected on a child to not kill the father
 void	command(char **argv, int fdi, int fdo)
 {
 	char	**splitted_command;
@@ -87,10 +88,11 @@ void	command(char **argv, int fdi, int fdo)
 	wait(NULL);
 }
 
+//iterative execution of all the commads on the arguments
 void	pipe_line(int argc, char **argv, int fdi, int fdo)
 {
 	int		pipe_fd[2];
-	
+
 	argv++;
 	while (argc-- > 4)
 	{
@@ -103,6 +105,7 @@ void	pipe_line(int argc, char **argv, int fdi, int fdo)
 	command(argv, fdi, fdo);
 }
 
+//parse and 2 options depending on the input treating here_doc and normal input
 int	main(int argc, char *argv[])
 {
 	int	fdi;
@@ -111,21 +114,22 @@ int	main(int argc, char *argv[])
 	if (argc < 4)
 		exit(1);
 	argv++;
-	if (ft_strncmp(*argv, "here_doc", 8) == 0)
+	if (ft_strnstr(*argv, "here_doc", 8))
 	{
 		argv++;
 		fdi = here_doc_parse(argv);
 		if (fdi == -1)
 			perror(*argv);
 		argc--;
+		fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_APPEND, 0644);
 	}
 	else
 	{
 		fdi = open(*argv, O_RDONLY);
 		if (fdi == -1)
 			perror(*argv);
+		fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
-	fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	pipe_line(argc, argv, fdi, fdo);
 	return (close(fdi), close(fdo), 0);
 }
