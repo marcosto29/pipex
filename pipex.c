@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/31 18:52:22 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/01 10:25:49 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void	search_command(char *command, int pipe)
 	dup2(pipe, 1);
 	if (execve("/usr/bin/which", arg_vec, env_vec) == -1)
 	{
+		free_memory(arg_vec);
+		free_memory(env_vec);
 		perror("Command not found");
 		close(pipe);
 		exit (1);
@@ -77,7 +79,7 @@ void	command(char	**argv, int fdi, int fdo)
 		if (execve(cmd, splitted_command, env_vec) == -1)
 		{
 			perror(cmd);
-			free_memory(splitted_command); 
+			free_memory(splitted_command);
 			free_memory(env_vec);
 			exit (1);
 		}
@@ -85,20 +87,17 @@ void	command(char	**argv, int fdi, int fdo)
 	wait(NULL);
 }
 
-int	main(int argc, char *argv[])
+void	pipe_line(int argc, char **argv)
 {
-	int		fdi;
-	int		fdo;
 	int		pipe_fd[2];
 	int		tmp_pipe;
+	int		fdo;
+	int		fdi;
 
-	tmp_pipe = -1;
-	if (argc < 4)
-		exit(1);
-	argv++;
 	fdi = open(*argv, O_RDONLY);
 	if (fdi == -1)
 		perror(*argv);
+	tmp_pipe = -1;
 	argv++;
 	while (argc-- > 4)
 	{
@@ -112,5 +111,15 @@ int	main(int argc, char *argv[])
 	}
 	fdo = open(*(argv + 1), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	command(argv, fdi, fdo);
-	return (close(fdo), close(fdi), 0);
+	close(fdo);
+	close(fdi);
+}
+
+int	main(int argc, char *argv[])
+{
+	if (argc < 4)
+		exit(1);
+	argv++;
+	pipe_line(argc, argv);
+	return (0);
 }
