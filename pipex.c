@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/01 10:25:49 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/01 10:54:00 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*command_parse(char *command)
 	return (cmd);
 }
 
-void	command(char	**argv, int fdi, int fdo)
+void	command(char **argv, int fdi, int fdo)
 {
 	char	**splitted_command;
 	char	**env_vec;
@@ -120,6 +120,12 @@ int	main(int argc, char *argv[])
 	if (argc < 4)
 		exit(1);
 	argv++;
+	if (ft_strncmp(*argv, "here_doc", 8) == 0)
+	{
+		argv++;
+		here_doc_parse(argv);
+		exit(0);
+	}
 	pipe_line(argc, argv);
 	return (0);
 }

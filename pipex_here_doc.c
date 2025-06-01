@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 22:34:42 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/01 10:53:38 by matoledo         ###   ########.fr       */
+/*   Created: 2025/06/01 10:43:13 by matoledo          #+#    #+#             */
+/*   Updated: 2025/06/01 11:03:08 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
 
-# include "libft/libft.h"
-# include "libft/libftprintf/libftprintf.h"
-# include "libft/libftget_next_line/libftget_next_line.h"
-# include <stdio.h>
-# include <sys/wait.h>
-# include <string.h>
-# include <errno.h>
+void	here_doc_parse(char **argv)
+{
+	int		pipe_fd[2];
+	char	*line;
+	int		fd;
 
-void	here_doc_parse(char **argv);
-char	**ft_split_pipex(char const *s, char c);
-int		is_empty(char *s);
-void	free_memory(char **splitted_word);
-
-#endif
+	fd = open("hola", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	pipe(pipe_fd);
+	dup2(fd, 1);
+	line = get_next_line(0);
+	line[ft_strlen(line) - 1] = '\0';
+	while(ft_strncmp(line, *argv, ft_strlen(line)) != 0)
+	{
+		ft_printf("%s\n", line);
+		line = get_next_line(0);
+		line[ft_strlen(line) - 1] = '\0';
+	}
+}

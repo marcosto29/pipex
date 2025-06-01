@@ -6,18 +6,11 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/05/31 18:45:21 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/01 10:26:26 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-char	*last_string(char **ds)
-{
-	while (*(ds + 1))
-		ds++;
-	return (*ds);
-}
 
 int	is_empty(char *s)
 {
