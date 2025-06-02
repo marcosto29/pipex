@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:34:42 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/01 11:58:23 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:19:07 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <errno.h>
 
+void	fd_errors(int fdi, int fdo, char *argvi, char *argvo);
 char	*last_string(char **ds);
 int		here_doc_parse(char **argv);
 char	**ft_split_pipex(char const *s, char c);

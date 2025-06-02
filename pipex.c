@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/01 13:16:31 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:38:27 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	pipe_line(int argc, char **argv, int fdi, int fdo)
 		close(fdi);
 		fdi = pipe_fd[0];
 	}
-	command(argv, fdi, fdo);
+	if (argc == 3)
+		command(argv, fdi, fdo);
 }
 
 //parse and 2 options depending on the input treating here_doc and normal input
@@ -111,15 +112,11 @@ int	main(int argc, char *argv[])
 	int	fdi;
 	int	fdo;
 
-	if (argc < 4)
-		exit(1);
 	argv++;
 	if (ft_strnstr(*argv, "here_doc", 8))
 	{
 		argv++;
 		fdi = here_doc_parse(argv);
-		if (fdi == -1)
-			perror(*argv);
 		argc--;
 		fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_APPEND, 0644);
 	}
@@ -130,6 +127,7 @@ int	main(int argc, char *argv[])
 			perror(*argv);
 		fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
+	fd_errors(fdi, fdo, *argv, last_string(argv));
 	pipe_line(argc, argv, fdi, fdo);
 	return (close(fdi), close(fdo), 0);
 }
