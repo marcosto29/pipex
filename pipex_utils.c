@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:33:58 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/02 10:48:26 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:47:38 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	fd_errors(int fdi, int fdo, char *argvi, char *argvo)
 {
-	if (fdi == -1)
-		perror(argvi);
 	if (fdo == -1)
 	{
 		perror(argvo);
-		exit (1);
+		exit (0);
 	}
+	if (fdi == -1)
+		perror(argvi);
 }
 
 char	*last_string(char **ds)

@@ -6,7 +6,7 @@
 /*   By: matoledo <matoledo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:55:36 by matoledo          #+#    #+#             */
-/*   Updated: 2025/06/02 10:38:27 by matoledo         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:37:35 by matoledo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,6 @@ int	main(int argc, char *argv[])
 	else
 	{
 		fdi = open(*argv, O_RDONLY);
-		if (fdi == -1)
-			perror(*argv);
 		fdo = open(last_string(argv), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	fd_errors(fdi, fdo, *argv, last_string(argv));
