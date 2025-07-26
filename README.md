@@ -6,7 +6,7 @@ Pipex is an interesting project which simulates the execution of Unix terminal c
 
 1. [Project Description](#Description)
 2. [Install and run the project](#Install-and-usage)
-3. [Code functionality summary](#Main-Flux)
+3. [Code functionality summary](#How-it-works)
 
 ## Install and usage
 
