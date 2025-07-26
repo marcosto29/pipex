@@ -34,7 +34,7 @@ Once the child program begins executing, the first thing it does, like its paren
 
 ### dup2
 
-A final important feature of this program is the way it redirects standard input and output so that the result of a process's execution is not lost. The previously created pipelines are very important. Before calling the execve function, the dup2 function redirects the standard input and/or output to the pipelines. In this way, the result of the execution is sent to the pipelines, making them accessible to the respective parents, who can then read them.
+A final important feature of this program is the way it redirects standard input and output so that the result of a process's execution is not lost. The previously created pipelines are very important. Before calling the execve function, the dup2 function redirects the standard input and/or output to the pipelines. This way, the result of the execution is sent to the pipelines, making them accessible to the respective parents, who can then read them.
 
 With all these features explained, now that the child program has the path to the command, it redirects the standard inputs again to the respective pipelines and calls execve, thus ending the process flow. The parent waits until the child program dies and continues the loop.
 
