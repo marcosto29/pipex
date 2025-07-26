@@ -30,9 +30,9 @@ With this hierarchy established, the child begins executing the code. It now has
 
 Normally, when calling a command in the terminal, the user doesn't type the full path, but simply calls the command name, and the terminal searches for it in the PATH variable. This program works exactly the same.
 
-### dup2
+Once the child program begins executing, the first thing it does, like its parent, is create a pipeline and a branch to create another child program. This new child program is responsible of searching the command given in the PATH variable. To do this, it calls the which command.
 
-Once the child program begins executing, the first thing it does, like its parent, is create a pipeline and a branch to create another child program. This new child program is responsible for searching for the command given in the PATH variable. To do this, it calls the which command.
+### dup2
 
 A final important feature of this program is the way it redirects standard input and output so that the result of a process's execution is not lost. The previously created pipelines are very important. Before calling the execve function, the dup2 function redirects the standard input and/or output to the pipelines. In this way, the result of the execution is sent to the pipelines, making them accessible to the respective parents, who can then read them.
 
