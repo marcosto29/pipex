@@ -1,8 +1,29 @@
 # Pipex
 
-Pipex is an interesting project which simulates the execution of Unix terminal commands located in PATH with the help of C.
+## Project Description
 
-## Main flux
+Pipex is an interesting project which simulates the execution of Unix terminal commands located on the PATH variable with the help of C, it allows the user to use as many commands as desired and the here_doc functionality to not only use a file as input but also the standard input.
+
+1. [Project Description](#Description)
+2. [Install and run the project](#Install-and-usage)
+3. [Code functionality summary](#Main-Flux)
+
+## Install and usage
+
+* Clone repository
+```
+git clone https://github.com/marcosto29/pipex.git
+```
+* To compile program, run the following command:
+```
+make
+```
+* To execute, use the following command:
+```
+./pipex (desired commands)
+```
+
+## How it works
 
 The main goal of the program is to find and execute Unix commands submitted by the user. The specific approach developed allows the user to use as many pipes and execute as many commands as desired. It also includes interesting features, such as the implementation of the "here_doc" functionality. The user can decide whether to use standard input (fdi)/terminal or use an existing input file.
 
