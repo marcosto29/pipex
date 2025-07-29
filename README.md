@@ -32,7 +32,7 @@ To achieve the desire program it uses the execve function, this can result on di
 Because of this, the main process relies on different features given by the fork and pipe functions. With the correct use of these functions, the main process can behave like a tree, creating branches to execute different commands and taking the output of these executions by reading a communication pipe.
 
 <p align="center">
-  <img src = "https://github.com/marcosto29/pipex/blob/main/Pipex%20flux.png" "Pipex flux">
+  <img src = "https://github.com/marcosto29/pipex/blob/main/Images/Pipex%20flux.png" "Pipex flux">
 </p>
 
 ### Pipe and Fork
@@ -42,7 +42,7 @@ As explained above, the main process uses the fork function to fork and create a
 Now, with one main process and one sub-process, the risk of killing the parent is solved. However, without proper communication, creating and running a child that will eventually die is useless. To address this issue, the parent creates a communication pipe before the fork. This pipe allows for simple communication with input and output data. Once the pipe is created and the fork is executed, the child closes the read end, and the parent closes the write end. This way, one of them can only write and one read, achieving the desired state: the child can share information with the parent.
 
 <p align="center">
-  <img width = "300" src = "https://github.com/marcosto29/pipex/blob/main/Fork_and_pipe.png" "Fork and pipe">
+  <img width = "300" src = "https://github.com/marcosto29/pipex/blob/main/Images/Fork_and_pipe.png" "Fork and pipe">
 </p>
 
 ### execve
@@ -63,4 +63,4 @@ The parent continues the loop by closing the previous output pipe (since no one 
 
 | Initial            | Redirected  |
 :-------------------------:|:-------------------------:
-![](https://github.com/marcosto29/pipex/blob/main/Original_pipe_input.png "original pipe input") | ![](https://github.com/marcosto29/pipex/blob/main/New_pipe_input.png "Fork and pipe")
+![](https://github.com/marcosto29/pipex/blob/main/Images/Original_pipe_input.png "original pipe input") | ![](https://github.com/marcosto29/pipex/blob/main/Images/New_pipe_input.png "Fork and pipe")
